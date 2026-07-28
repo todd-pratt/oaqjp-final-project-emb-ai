@@ -1,0 +1,26 @@
+from flask import Flask, render_template, request
+from EmotionDetection.emotion_detection import emotion_detector
+import json
+
+my_app = Flask("My Emotion Detection Application")
+
+@my_app.route('/')
+def get_index():
+    return render_template('index.html')
+
+@my_app.route('/emotionDetector')
+def get_emotion_detector():
+    query = request.args.get("textToAnalyze") 
+    resp = emotion_detector(query)
+    if resp["dominant_emotion"] == "None": 
+        return "Invalid text! Please try again!"
+    
+    dominant = resp["dominant_emotion"]
+    resp.pop("dominant_emotion")
+    respText = json.dumps(resp)
+    respText = respText.replace("\"", "'")
+    respText = respText.replace("{", "")
+    respText = respText.replace("}", "")
+    
+    
+    return f"For the given statement, the system response is {respText}. The dominant emotion is {dominant}.";
