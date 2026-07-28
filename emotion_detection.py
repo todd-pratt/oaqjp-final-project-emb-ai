@@ -6,15 +6,4 @@ def emotion_detector(text_to_analyse):
     header = {"grpc-metadata-mm-model-id": "emotion_aggregated-workflow_lang_en_stock"}
     response = requests.post(url, json = myobj, headers=header)
     formatted_response = json.loads(response.text)
-    emotions = formatted_response['emotionPredictions'][0]['emotion']
-    dominantEmotion = ""
-    dominantScore = 0.0
-
-    for key, value in emotions.items():
-        if value > dominantScore:
-            dominantEmotion = key
-            dominantScore = value
-
-    emotions["dominant_emotion"] = dominantEmotion
-
-    return emotions
+    return formatted_response['emotionPredictions'][0]['emotion']
