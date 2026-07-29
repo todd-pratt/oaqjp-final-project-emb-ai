@@ -35,5 +35,5 @@ def get_emotion_detector():
 
     return (
         f"For the given statement, the system response is {resp_text}."
-        " The dominant emotion is {dominant}."
+        f" The dominant emotion is {dominant}."
     )
